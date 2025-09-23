@@ -1,0 +1,24 @@
+[core]
+	autocrlf = {{ if eq .chezmoi.os "linux" }}input{{ else }}auto{{ end }}
+	pager = delta
+[credential "https://github.com"]
+	helper = 
+	helper = {{ if eq .chezmoi.os "windows" }}!'C:\\Program Files\\GitHub CLI\\gh.exe'{{ else }}!/usr/bin/gh{{ end }} auth git-credential
+[credential "https://gist.github.com"]
+	helper = 
+	helper = {{ if eq .chezmoi.os "windows" }}!'C:\\Program Files\\GitHub CLI\\gh.exe'{{ else }}!/usr/bin/gh{{ end }} auth git-credential
+[credential "https://huggingface.co"]
+	provider = generic
+[delta]
+	navigate = true
+[difftool "code"]
+	cmd = code --wait --diff $LOCAL $REMOTE
+[interactive]
+	diffFilter = delta --color-only
+[merge]
+	conflictStyle = zdiff3
+[mergetool "vscode"]
+	cmd = code --wait --merge $REMOTE $LOCAL $BASE $MERGED
+[user]
+	email = adonais.neoadonis@gmail.com
+	name = Adonais Romero González
