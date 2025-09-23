@@ -1,5 +1,5 @@
 [core]
-	autocrlf = {{ if eq .chezmoi.os "linux" }}input{{ else }}auto{{ end }}
+	autocrlf = {{ if eq .chezmoi.os "linux" }}input{{ else }}true{{ end }}
 	pager = delta
 [credential "https://github.com"]
 	helper = 
