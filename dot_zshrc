@@ -1,0 +1,62 @@
+plugins=(archlinux git zsh-autosuggestions zsh-syntax-highlighting history-substring-search)
+
+# oh-my-zsh
+ZSH=/usr/share/oh-my-zsh
+ZSH_CUSTOM=/usr/share/zsh
+DISABLE_AUTO_TITLE="true"
+ZSH_CACHE_DIR="$HOME/.cache/oh-my-zsh"
+if [[ ! -d $ZSH_CACHE_DIR ]]; then
+  mkdir $ZSH_CACHE_DIR
+fi
+ZSH_COMPDUMP="$ZSH_CACHE_DIR/.zcompdump"
+source $ZSH/oh-my-zsh.sh
+# End of oh-my-zsh
+
+# oh-my-posh
+eval "$(oh-my-posh init zsh --config $HOME/.omp.json)"
+# End of oh-my-posh
+
+# Claude Code
+export PATH="$HOME/.bun/bin:$PATH"
+alias claude="bun run --bun claude"
+# End of Claude Code
+
+# fzf
+source <(fzf --zsh)
+# End of fzf
+
+# yazi
+function y() {
+  local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
+  local start end duration count=0
+  # work-around: yazi might fail to start when run using SSH on Windows
+  while [ "$count" -lt 10 ]; do
+    start=$(date +%s%3N)
+    yazi "$@" --cwd-file="$tmp" < /dev/null
+    end=$(date +%s%3N)
+    duration=$((end - start))
+    count=$((count + 1))
+    # run again unless it runs for at least a short while
+    if [ "$duration" -ge 500 ]; then
+      break
+    fi
+  done
+  IFS= read -r -d '' cwd < "$tmp"
+  [ -n "$cwd" ] && [ "$cwd" != "$PWD" ] && builtin cd -- "$cwd"
+  rm -f -- "$tmp"
+}
+# End of yazi
+
+# zoxide
+eval "$(zoxide init zsh)"
+# End of zoxide
+
+# vars
+alias pip="uv pip"
+alias ls=lsd
+[ -n "$DISPLAY" ] && export EDITOR="code -w" || export EDITOR=micro
+[ -n "$DISPLAY" ] && export VISUAL="code -w" || export VISUAL=micro
+[ -n "$DISPLAY" ] && export DIFFPROG=kompare || export DIFFPROG=delta
+[ -n "$DISPLAY" ] && export MERGEPROG=meld || export DIFFPROG=diff3
+[ -n "$DISPLAY" ] && export BROWSER=firefox || export BROWSER=""
+# End of vars
