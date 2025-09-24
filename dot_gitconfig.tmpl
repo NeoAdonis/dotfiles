@@ -1,3 +1,28 @@
+[alias]
+	br = branch
+	co = checkout
+	cp = cherry-pick
+	ci = commit
+	cm = commit -m
+	amend = commit --amend
+	df = diff
+	dc = diff --cached
+	ds = diff --staged
+	f = fetch --all --prune
+	last = log -1 HEAD
+	lg = log --oneline --graph --decorate --all
+	pl = pull --rebase
+	ps = push
+	rb = rebase
+	rbc = rebase --continue
+	rba = rebase --abort
+	r = reset
+	rh = reset --hard
+	rs = reset --soft
+	unstage = reset HEAD --
+	st = status -sb
+	who = shortlog -s --
+	tags = tag -l
 [core]
 	autocrlf = {{ if eq .chezmoi.os "linux" }}input{{ else }}true{{ end }}
 	pager = delta
@@ -20,5 +45,5 @@
 [mergetool "vscode"]
 	cmd = code --wait --merge $REMOTE $LOCAL $BASE $MERGED
 [user]
-	email = adonais.neoadonis@gmail.com
-	name = Adonais Romero González
+	email = {{ .email }}
+	name = {{ .name }}
