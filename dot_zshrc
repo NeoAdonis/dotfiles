@@ -57,6 +57,8 @@ function y() {
 alias cls=clear
 alias ls=lsd
 alias pip="uv pip"
+alias yas="yay -Slq | fzf --multi --preview 'yay -Si {1}' | xargs -ro yay -S"
+alias yar="yay -Qq | fzf --multi --preview 'yay -Qi {1}' | xargs -ro yay -Rns"
 [ -n "$DISPLAY" ] && export EDITOR="code -w" || export EDITOR=micro
 [ -n "$DISPLAY" ] && export VISUAL="code -w" || export VISUAL=micro
 [ -n "$DISPLAY" ] && [ -z "$WSL" ] && export DIFFPROG=kompare || export DIFFPROG=delta
