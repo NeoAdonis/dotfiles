@@ -1,4 +1,4 @@
-plugins=(archlinux git zsh-autosuggestions zsh-syntax-highlighting history-substring-search)
+plugins=(archlinux git zoxide zsh-autosuggestions zsh-syntax-highlighting history-substring-search)
 
 # WSL check
 if [[ -f /proc/sys/fs/binfmt_misc/WSLInterop ]]; then
@@ -53,13 +53,10 @@ function y() {
 }
 # End of yazi
 
-# zoxide
-eval "$(zoxide init zsh)"
-# End of zoxide
-
 # vars
-alias pip="uv pip"
+alias cls=clear
 alias ls=lsd
+alias pip="uv pip"
 [ -n "$DISPLAY" ] && export EDITOR="code -w" || export EDITOR=micro
 [ -n "$DISPLAY" ] && export VISUAL="code -w" || export VISUAL=micro
 [ -n "$DISPLAY" ] && [ -z "$WSL" ] && export DIFFPROG=kompare || export DIFFPROG=delta
