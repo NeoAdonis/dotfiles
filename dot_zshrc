@@ -1,7 +1,7 @@
 plugins=(archlinux git zsh-autosuggestions zsh-syntax-highlighting history-substring-search)
 
 # WSL check
-if [[ $(uname -r) == (#s)*[mM]icrosoft*(#e) ]]; then
+if [[ -f /proc/sys/fs/binfmt_misc/WSLInterop ]]; then
   export WSL=1
 fi
 # End of WSL check
