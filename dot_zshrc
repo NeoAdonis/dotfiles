@@ -1,5 +1,11 @@
 plugins=(archlinux git zsh-autosuggestions zsh-syntax-highlighting history-substring-search)
 
+# WSL check
+if [[ $(uname -r) == (#s)*[mM]icrosoft*(#e) ]]; then
+  export WSL=1
+fi
+# End of WSL check
+
 # oh-my-zsh
 ZSH=/usr/share/oh-my-zsh
 ZSH_CUSTOM=/usr/share/zsh
@@ -56,7 +62,7 @@ alias pip="uv pip"
 alias ls=lsd
 [ -n "$DISPLAY" ] && export EDITOR="code -w" || export EDITOR=micro
 [ -n "$DISPLAY" ] && export VISUAL="code -w" || export VISUAL=micro
-[ -n "$DISPLAY" ] && export DIFFPROG=kompare || export DIFFPROG=delta
-[ -n "$DISPLAY" ] && export MERGEPROG=meld || export DIFFPROG=diff3
-[ -n "$DISPLAY" ] && export BROWSER=firefox || export BROWSER=""
+[ -n "$DISPLAY" ] && [ -z "$WSL" ] && export DIFFPROG=kompare || export DIFFPROG=delta
+[ -n "$DISPLAY" ] && [ -z "$WSL" ] && export MERGEPROG=meld || export DIFFPROG=diff3
+[ -n "$DISPLAY" ] && [ -z "$WSL" ] && export BROWSER=firefox || export BROWSER=""
 # End of vars
