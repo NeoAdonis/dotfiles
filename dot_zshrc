@@ -8,7 +8,7 @@ setopt HIST_REDUCE_BLANKS
 
 # WSL check
 if [[ -f /proc/sys/fs/binfmt_misc/WSLInterop ]]; then
-  export WSL=1
+	export WSL=1
 fi
 # End of WSL check
 
@@ -17,7 +17,7 @@ ZSH=/usr/share/oh-my-zsh
 ZSH_CUSTOM=/usr/share/zsh
 ZSH_CACHE_DIR="$HOME/.cache/oh-my-zsh"
 if [[ ! -d $ZSH_CACHE_DIR ]]; then
-  mkdir $ZSH_CACHE_DIR
+	mkdir $ZSH_CACHE_DIR
 fi
 ZSH_COMPDUMP="$ZSH_CACHE_DIR/.zcompdump"
 source $ZSH/oh-my-zsh.sh
@@ -39,63 +39,62 @@ source <(fzf --zsh)
 # fzf yay helpers
 # https://github.com/junegunn/fzf/wiki/examples#pacman
 yzf() {
-  pos=$1
-  shift
-  sed "s/ /\t/g" |
-    fzf --nth=$pos --multi \
-      --preview-window=60%,border-left \
-      --bind="double-click:execute(xdg-open 'https://archlinux.org/packages/{$pos}'),alt-enter:execute(xdg-open 'https://aur.archlinux.org/packages?K={$pos}&SB=p&SO=d&PP=100')" \
-       "$@" | cut -f$pos | xargs
+	pos=$1
+	shift
+	sed "s/ /\t/g" |
+		fzf --nth=$pos --multi \
+			--preview-window=60%,border-left \
+			--bind="double-click:execute(xdg-open 'https://archlinux.org/packages/{$pos}'),alt-enter:execute(xdg-open 'https://aur.archlinux.org/packages?K={$pos}&SB=p&SO=d&PP=100')" \
+			"$@" | cut -f$pos | xargs
 }
 
 yas() {
-  cache_dir="/tmp/yas-$USER"
-  test "$1" = "-y" && rm -rf "$cache_dir" && shift
-  mkdir -p "$cache_dir"
-  preview_cache="$cache_dir/preview_{2}"
-  list_cache="$cache_dir/list"
-  { test "$(cat "$list_cache$@" | wc -l)" -lt 50000 && rm "$list_cache$@"; } 2>/dev/null
-  pkg=$( (cat "$list_cache$@" 2>/dev/null || { pacman -Sl "$@"; yay -Sl aur "$@" } | sed 's/ [^ ]*unknown-version[^ ]*//' | tee "$list_cache$@") |
-    yzf 2 --tiebreak=index --preview="cat $preview_cache 2>/dev/null | grep -v 'Querying' | grep . || yay --color always -Si {2} | tee $preview_cache")
-  if test -n "$pkg"
-    then echo "Installing $pkg..."
-      cmd="yay -S $pkg"
-      print -s "$cmd"
-      eval "$cmd"
-      rehash
-  fi
+	cache_dir="/tmp/yas-$USER"
+	test "$1" = "-y" && rm -rf "$cache_dir" && shift
+	mkdir -p "$cache_dir"
+	preview_cache="$cache_dir/preview_{2}"
+	list_cache="$cache_dir/list"
+	{ test "$(cat "$list_cache$@" | wc -l)" -lt 50000 && rm "$list_cache$@"; } 2>/dev/null
+	pkg=$( (cat "$list_cache$@" 2>/dev/null || yay -Sl "$@" | sed 's/ [^ ]*unknown-version[^ ]*//' | tee "$list_cache$@") | yzf 2 --tiebreak=index --preview="cat $preview_cache 2>/dev/null | grep -v 'Querying' | grep . || yay --color always -Si {2} | tee $preview_cache")
+	if test -n "$pkg"; then
+		echo "Installing $pkg..."
+		cmd="yay -S $pkg"
+		print -s "$cmd"
+		eval "$cmd"
+		rehash
+	fi
 }
 
 yar() {
-  pkg=$(yay -Q "$@" | yzf 1 --tiebreak=length --preview="yay --color always -Qli {1}")
-  if test -n "$pkg"
-    then echo "Removing $pkg..."
-      cmd="yay -Rcs $pkg"
-      print -s "$cmd"
-      eval "$cmd"
-  fi
+	pkg=$(yay -Q "$@" | yzf 1 --tiebreak=length --preview="yay --color always -Qli {1}")
+	if test -n "$pkg"; then
+		echo "Removing $pkg..."
+		cmd="yay -Rcs $pkg"
+		print -s "$cmd"
+		eval "$cmd"
+	fi
 }
 # End of fzf yay helpers
 
 # yazi
 y() {
-  local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
-  local start end duration count=0
-  # work-around: yazi might fail to start when run using SSH on Windows
-  while [ "$count" -lt 10 ]; do
-    start=$(date +%s%3N)
-    yazi "$@" --cwd-file="$tmp" < /dev/null
-    end=$(date +%s%3N)
-    duration=$((end - start))
-    count=$((count + 1))
-    # run again unless it runs for at least a short while
-    if [ "$duration" -ge 1000 ]; then
-      break
-    fi
-  done
-  IFS= read -r -d '' cwd < "$tmp"
-  [ -n "$cwd" ] && [ "$cwd" != "$PWD" ] && builtin cd -- "$cwd"
-  rm -f -- "$tmp"
+	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
+	local start end duration count=0
+	# work-around: yazi might fail to start when run using SSH on Windows
+	while [ "$count" -lt 10 ]; do
+		start=$(date +%s%3N)
+		yazi "$@" --cwd-file="$tmp" </dev/null
+		end=$(date +%s%3N)
+		duration=$((end - start))
+		count=$((count + 1))
+		# run again unless it runs for at least a short while
+		if [ "$duration" -ge 1000 ]; then
+			break
+		fi
+	done
+	IFS= read -r -d '' cwd <"$tmp"
+	[ -n "$cwd" ] && [ "$cwd" != "$PWD" ] && builtin cd -- "$cwd"
+	rm -f -- "$tmp"
 }
 # End of yazi
 
