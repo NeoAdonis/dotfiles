@@ -1,4 +1,10 @@
+# zsh and oh-my-zsh options
+DISABLE_AUTO_TITLE="true"
 plugins=(archlinux git zoxide zsh-autosuggestions zsh-syntax-highlighting history-substring-search)
+setopt HIST_FIND_NO_DUPS
+setopt HIST_IGNORE_DUPS
+setopt HIST_REDUCE_BLANKS
+# End of zsh and oh-my-zsh options
 
 # WSL check
 if [[ -f /proc/sys/fs/binfmt_misc/WSLInterop ]]; then
@@ -9,7 +15,6 @@ fi
 # oh-my-zsh
 ZSH=/usr/share/oh-my-zsh
 ZSH_CUSTOM=/usr/share/zsh
-DISABLE_AUTO_TITLE="true"
 ZSH_CACHE_DIR="$HOME/.cache/oh-my-zsh"
 if [[ ! -d $ZSH_CACHE_DIR ]]; then
   mkdir $ZSH_CACHE_DIR
@@ -31,8 +36,49 @@ alias claude="bun run --bun claude"
 source <(fzf --zsh)
 # End of fzf
 
+# fzf yay helpers
+# https://github.com/junegunn/fzf/wiki/examples#pacman
+yzf() {
+  pos=$1
+  shift
+  sed "s/ /\t/g" |
+    fzf --nth=$pos --multi \
+      --preview-window=60%,border-left \
+      --bind="double-click:execute(xdg-open 'https://archlinux.org/packages/{$pos}'),alt-enter:execute(xdg-open 'https://aur.archlinux.org/packages?K={$pos}&SB=p&SO=d&PP=100')" \
+       "$@" | cut -f$pos | xargs
+}
+
+yas() {
+  cache_dir="/tmp/yas-$USER"
+  test "$1" = "-y" && rm -rf "$cache_dir" && shift
+  mkdir -p "$cache_dir"
+  preview_cache="$cache_dir/preview_{2}"
+  list_cache="$cache_dir/list"
+  { test "$(cat "$list_cache$@" | wc -l)" -lt 50000 && rm "$list_cache$@"; } 2>/dev/null
+  pkg=$( (cat "$list_cache$@" 2>/dev/null || { pacman -Sl "$@"; yay -Sl aur "$@" } | sed 's/ [^ ]*unknown-version[^ ]*//' | tee "$list_cache$@") |
+    yzf 2 --tiebreak=index --preview="cat $preview_cache 2>/dev/null | grep -v 'Querying' | grep . || yay --color always -Si {2} | tee $preview_cache")
+  if test -n "$pkg"
+    then echo "Installing $pkg..."
+      cmd="yay -S $pkg"
+      print -s "$cmd"
+      eval "$cmd"
+      rehash
+  fi
+}
+
+yar() {
+  pkg=$(yay -Q "$@" | yzf 1 --tiebreak=length --preview="yay --color always -Qli {1}")
+  if test -n "$pkg"
+    then echo "Removing $pkg..."
+      cmd="yay -Rcs $pkg"
+      print -s "$cmd"
+      eval "$cmd"
+  fi
+}
+# End of fzf yay helpers
+
 # yazi
-function y() {
+y() {
   local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
   local start end duration count=0
   # work-around: yazi might fail to start when run using SSH on Windows
@@ -43,7 +89,7 @@ function y() {
     duration=$((end - start))
     count=$((count + 1))
     # run again unless it runs for at least a short while
-    if [ "$duration" -ge 500 ]; then
+    if [ "$duration" -ge 1000 ]; then
       break
     fi
   done
@@ -57,8 +103,6 @@ function y() {
 alias cls=clear
 alias ls=lsd
 alias pip="uv pip"
-alias yas="yay -Slq | fzf --multi --preview 'yay -Si {1}' | xargs -ro yay -S"
-alias yar="yay -Qq | fzf --multi --preview 'yay -Qi {1}' | xargs -ro yay -Rns"
 [ -n "$DISPLAY" ] && export EDITOR="code -w" || export EDITOR=micro
 [ -n "$DISPLAY" ] && export VISUAL="code -w" || export VISUAL=micro
 [ -n "$DISPLAY" ] && [ -z "$WSL" ] && export DIFFPROG=kompare || export DIFFPROG=delta
