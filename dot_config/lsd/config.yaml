@@ -1,4 +1,4 @@
-date: "+%Y-%b-%d %H:%M:%S"
+date: "+%Y-%b-%d %H:%M"
 
 sorting:
   dir-grouping: first
