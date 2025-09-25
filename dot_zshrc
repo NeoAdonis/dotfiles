@@ -102,6 +102,10 @@ y() {
 alias cls=clear
 alias ls=lsd
 alias pip="uv pip"
+export XDG_CACHE_HOME="$HOME/.cache"
+export XDG_CONFIG_HOME="$HOME/.config"
+export XDG_DATA_HOME="$HOME/.local/share"
+export XDG_STATE_HOME="$HOME/.local/state"
 [ -n "$DISPLAY" ] && export EDITOR="code -w" || export EDITOR=micro
 [ -n "$DISPLAY" ] && export VISUAL="code -w" || export VISUAL=micro
 [ -n "$DISPLAY" ] && [ -z "$WSL" ] && export DIFFPROG=kompare || export DIFFPROG=delta
