@@ -1,3 +1,6 @@
+color:
+  theme: custom
+
 date: "+%Y-%b-%d %H:%M"
 
 sorting:

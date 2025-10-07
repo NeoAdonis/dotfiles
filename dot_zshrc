@@ -105,6 +105,7 @@ y() {
 alias cls=clear
 alias ls=lsd
 alias pip="uv pip"
+export BAT_THEME="Catppuccin Mocha"
 export MICRO_TRUECOLOR=1
 export XDG_CACHE_HOME="$HOME/.cache"
 export XDG_CONFIG_HOME="$HOME/.config"
