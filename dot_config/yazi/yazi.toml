@@ -1,0 +1,10 @@
+[mgr]
+show_hidden = true
+
+[plugin]
+prepend_previewers = [
+    { mime = "audio/*",   run = "exifaudio"}
+]
+
+[preview]
+image_filter = "triangle"
