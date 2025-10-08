@@ -32,6 +32,13 @@ export PATH="$HOME/.bun/bin:$PATH"
 alias claude="bun run --bun claude"
 # End of Claude Code
 
+# fsh
+FSH_THEME="catppuccin-mocha"
+if ! fast-theme -s | grep -q "$FSH_THEME"; then
+  fast-theme "XDG:$FSH_THEME"
+fi
+# End of fsh
+
 # fzf
 source <(fzf --zsh)
 # End of fzf
