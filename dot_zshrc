@@ -1,6 +1,6 @@
 # zsh and oh-my-zsh options
 DISABLE_AUTO_TITLE="true"
-plugins=(archlinux git rbw zoxide zsh-autosuggestions zsh-syntax-highlighting history-substring-search)
+plugins=(archlinux git rbw zoxide zsh-autosuggestions fast-syntax-highlighting history-substring-search)
 setopt HIST_FIND_NO_DUPS
 setopt HIST_IGNORE_DUPS
 setopt HIST_REDUCE_BLANKS
