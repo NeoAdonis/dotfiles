@@ -27,11 +27,6 @@ source $ZSH/oh-my-zsh.sh
 eval "$(oh-my-posh init zsh --config $HOME/.omp.json)"
 # End of oh-my-posh
 
-# Claude Code
-export PATH="$HOME/.bun/bin:$PATH"
-alias claude="bun run --bun claude"
-# End of Claude Code
-
 # fsh
 FSH_THEME="catppuccin-mocha"
 if ! fast-theme -s | grep -q "$FSH_THEME"; then
@@ -113,6 +108,7 @@ alias cls=clear
 alias ls=lsd
 alias pip="uv pip"
 export BAT_THEME="Catppuccin Mocha"
+export MANPAGER="sh -c 'awk '\''{ gsub(/\x1B\[[0-9;]*m/, \"\", \$0); gsub(/.\x08/, \"\", \$0); print }'\'' | bat -p -lman'"
 export MICRO_TRUECOLOR=1
 export XDG_CACHE_HOME="$HOME/.cache"
 export XDG_CONFIG_HOME="$HOME/.config"
