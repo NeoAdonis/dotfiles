@@ -27,12 +27,12 @@ source $ZSH/oh-my-zsh.sh
 eval "$(oh-my-posh init zsh --config $HOME/.omp.json)"
 # End of oh-my-posh
 
-# fsh
+# fast-syntax-highlighting
 FSH_THEME="catppuccin-mocha"
 if ! fast-theme -s | grep -q "$FSH_THEME"; then
-  fast-theme "XDG:$FSH_THEME"
+	fast-theme "XDG:$FSH_THEME"
 fi
-# End of fsh
+# End of fast-syntax-highlighting
 
 # fzf
 source <(fzf --zsh)
@@ -51,6 +51,10 @@ yzf() {
 }
 
 yas() {
+	if ! command -v yay >/dev/null 2>&1; then
+		echo "error: yay is not installed." >&2
+		return 1
+	fi
 	cache_dir="/tmp/yas-$USER"
 	test "$1" = "-y" && rm -rf "$cache_dir" && shift
 	mkdir -p "$cache_dir"
@@ -71,6 +75,10 @@ yas() {
 }
 
 yar() {
+	if ! command -v yay >/dev/null 2>&1; then
+		echo "error: yay is not installed." >&2
+		return 1
+	fi
 	pkg=$(yay -Q --color always "$@" | yzf 1 --ansi --tiebreak=length --preview="yay --color always -Qli {1}")
 	if test -n "$pkg"; then
 		echo "Removing $pkg..."
@@ -83,6 +91,10 @@ yar() {
 
 # yazi
 y() {
+	if ! command -v yazi >/dev/null 2>&1; then
+		echo "error: yazi is not installed." >&2
+		return 1
+	fi
 	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
 	local start end duration count=0
 	# work-around: yazi might fail to start when run using SSH on Windows
@@ -115,8 +127,8 @@ export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_DATA_HOME="$HOME/.local/share"
 export XDG_STATE_HOME="$HOME/.local/state"
 [ -n "$DISPLAY" ] && export EDITOR="code -w" || export EDITOR=micro
-[ -n "$DISPLAY" ] && export VISUAL="code -w" || export VISUAL=micro
 [ -n "$DISPLAY" ] && [ -z "$WSL" ] && export DIFFPROG=kompare || export DIFFPROG=delta
 [ -n "$DISPLAY" ] && [ -z "$WSL" ] && export MERGEPROG=meld || export DIFFPROG=diff3
 [ -n "$DISPLAY" ] && [ -z "$WSL" ] && export BROWSER=firefox || export BROWSER=""
+export VISUAL=$EDITOR
 # End of vars
