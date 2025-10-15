@@ -32,12 +32,14 @@ fi
 # End of oh-my-posh
 
 # fast-syntax-highlighting
-FSH_THEME="XDG:catppuccin-mocha"
+FSH_THEME="catppuccin-mocha"
+FSH_THEME_PREFIX="XDG:"
 if [[ "$TERM" == "linux" ]]; then
 	FSH_THEME="default"
+	FSH_THEME_PREFIX=""
 fi
 if ! fast-theme -s | grep -q "$FSH_THEME"; then
-	fast-theme "$FSH_THEME"
+	fast-theme "$FSH_THEME_PREFIX$FSH_THEME"
 fi
 # End of fast-syntax-highlighting
 
