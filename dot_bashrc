@@ -1,0 +1,12 @@
+# If not running interactively, don't do anything
+[[ $- != *i* ]] && return
+
+# oh-my-posh
+if [[ "$TERM" == "linux" ]]; then
+	eval "$(oh-my-posh init bash --config ~/.omp.min.json)"
+else
+	eval "$(oh-my-posh init bash --config ~/.omp.json)"
+fi
+
+# fzf
+eval "$(fzf --bash)"
