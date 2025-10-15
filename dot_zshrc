@@ -124,6 +124,13 @@ y() {
 }
 # End of yazi
 
+# XDG Base Directory Specification
+export XDG_CACHE_HOME="$HOME/.cache"
+export XDG_CONFIG_HOME="$HOME/.config"
+export XDG_DATA_HOME="$HOME/.local/share"
+export XDG_STATE_HOME="$HOME/.local/state"
+# End of XDG Base Directory Specification
+
 # vars
 alias cls=clear
 alias ls=lsd
@@ -132,10 +139,6 @@ alias pip="uv pip"
 export BAT_THEME="Catppuccin Mocha"
 export MANPAGER="sh -c 'awk '\''{ gsub(/\x1B\[[0-9;]*m/, \"\", \$0); gsub(/.\x08/, \"\", \$0); print }'\'' | bat -p -lman'"
 export MICRO_TRUECOLOR=1
-export XDG_CACHE_HOME="$HOME/.cache"
-export XDG_CONFIG_HOME="$HOME/.config"
-export XDG_DATA_HOME="$HOME/.local/share"
-export XDG_STATE_HOME="$HOME/.local/state"
 export NLTK_DATA="$XDG_DATA_HOME/nltk_data"
 [ -n "$DISPLAY" ] && export EDITOR="code -w" || export EDITOR=micro
 [ -n "$DISPLAY" ] && [ -z "$WSL" ] && export DIFFPROG=kompare || export DIFFPROG=delta
