@@ -136,6 +136,7 @@ export XDG_CACHE_HOME="$HOME/.cache"
 export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_DATA_HOME="$HOME/.local/share"
 export XDG_STATE_HOME="$HOME/.local/state"
+export NLTK_DATA="$XDG_DATA_HOME/nltk_data"
 [ -n "$DISPLAY" ] && export EDITOR="code -w" || export EDITOR=micro
 [ -n "$DISPLAY" ] && [ -z "$WSL" ] && export DIFFPROG=kompare || export DIFFPROG=delta
 [ -n "$DISPLAY" ] && [ -z "$WSL" ] && export MERGEPROG=meld || export DIFFPROG=diff3
