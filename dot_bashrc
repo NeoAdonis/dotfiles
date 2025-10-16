@@ -1,4 +1,7 @@
-# If not running interactively, don't do anything
+# Set environment variables
+[[ -f ~/.env ]] && . ~/.env
+
+# If not running interactively, don't do anything else
 [[ $- != *i* ]] && return
 
 # oh-my-posh

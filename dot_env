@@ -1,0 +1,23 @@
+# XDG Base Directory Specification
+export XDG_CACHE_HOME="$HOME/.cache"
+export XDG_CONFIG_HOME="$HOME/.config"
+export XDG_DATA_HOME="$HOME/.local/share"
+export XDG_STATE_HOME="$HOME/.local/state"
+
+# WSL check
+if [ -f /proc/sys/fs/binfmt_misc/WSLInterop ]; then
+	export WSL=1
+fi
+
+# Default programs
+[ -n "$DISPLAY" ] && export EDITOR="code -w" || export EDITOR=micro
+[ -n "$DISPLAY" ] && [ -z "$WSL" ] && export DIFFPROG=kompare || export DIFFPROG=delta
+[ -n "$DISPLAY" ] && [ -z "$WSL" ] && export MERGEPROG=meld || export DIFFPROG=diff3
+[ -n "$DISPLAY" ] && [ -z "$WSL" ] && export BROWSER=firefox || export BROWSER=""
+export VISUAL=$EDITOR
+
+# Other variables
+export BAT_THEME="Catppuccin Mocha"
+export MANPAGER="sh -c 'awk '\''{ gsub(/\x1B\[[0-9;]*m/, \"\", \$0); gsub(/.\x08/, \"\", \$0); print }'\'' | bat -p -lman'"
+export MICRO_TRUECOLOR=1
+export NLTK_DATA="$XDG_DATA_HOME/nltk_data"
