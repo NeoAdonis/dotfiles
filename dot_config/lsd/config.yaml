@@ -1,5 +1,6 @@
 color:
   theme: custom
+  when: auto
 
 date: "+%Y-%b-%d %H:%M"
 
