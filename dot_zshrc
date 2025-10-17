@@ -119,8 +119,9 @@ y() {
 # End of yazi
 
 # Aliases
-alias cls=clear
-alias ls=lsd
+alias cls="clear"
+alias ip="ip -c=auto"
+alias ls="lsd"
 alias lt="lsd --tree"
 alias pip="uv pip"
 # End of Aliases
