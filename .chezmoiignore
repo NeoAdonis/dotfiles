@@ -1,4 +1,11 @@
 README.md
 {{- if eq .chezmoi.os "windows" }}
+.config/fontconfig
+.config/fsh
+.config/psd
+.bash_profile
+.bashrc
+.profile
+.zshenv
 .zshrc
 {{- end }}
