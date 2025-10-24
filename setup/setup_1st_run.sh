@@ -166,7 +166,7 @@ if [ "${WSL:-0}" -eq 1 ]; then
 fi
 
 if [ "${WSL:-0}" -eq 1 ]; then
-	echo "Initial complete. Start a new WSL instance to log in as '$NEW_USER'."
+	echo "Initial setup complete. Shutdown WSL and start a new instance to log in as '$NEW_USER'."
 else
 	echo "Initial setup complete. Proceed to log in as '$NEW_USER'."
 fi
