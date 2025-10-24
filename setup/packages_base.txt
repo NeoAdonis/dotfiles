@@ -52,6 +52,7 @@ pacman-contrib
 patchelf
 perl
 perl-image-exiftool
+pipewire-jack
 plocate
 posix
 python
