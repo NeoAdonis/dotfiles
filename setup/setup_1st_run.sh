@@ -155,6 +155,9 @@ if [ "${WSL:-0}" -eq 1 ]; then
 		[boot]
 		systemd = true
 
+		[interop]
+		appendWindowsPath = false
+
 		[user]
 		default = $NEW_USER
 	EOF
