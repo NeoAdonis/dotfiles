@@ -22,6 +22,6 @@ if ! gh auth status >/dev/null 2>&1; then
 fi
 
 # Reload zsh configuration
-if [ -n "$ZSH_VERSION" ]; then
+if [[ -n "${ZSH_VERSION:-}" ]]; then
 	source ~/.zshrc
 fi
