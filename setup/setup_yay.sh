@@ -15,3 +15,5 @@ echo "Cloning and building yay..."
 git clone https://aur.archlinux.org/yay.git
 cd yay
 makepkg -ic
+cd ..
+rm -rf yay
