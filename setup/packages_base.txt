@@ -1,3 +1,4 @@
+#pipewire-jack
 #pulseaudio-alsa
 #pulseaudio-jack
 #waypipe
@@ -12,7 +13,7 @@ chafa
 chezmoi
 clang
 cmake
-compsize
+#compsize
 duf
 fastfetch
 fd
@@ -52,7 +53,6 @@ pacman-contrib
 patchelf
 perl
 perl-image-exiftool
-pipewire-jack
 plocate
 posix
 python
