@@ -38,6 +38,11 @@
 	navigate = true
 [difftool "vscode"]
 	cmd = code --wait --diff $LOCAL $REMOTE
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	process = git-lfs filter-process
+	smudge = git-lfs smudge -- %f
+	required = true
 [init]
 	defaultBranch = main
 [interactive]
