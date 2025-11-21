@@ -12,7 +12,7 @@ fi
 # Default programs
 [ -n "$DISPLAY" ] && export EDITOR="code -w" || export EDITOR=micro
 [ -n "$DISPLAY" ] && [ -z "$WSL" ] && export DIFFPROG=kompare || export DIFFPROG=delta
-[ -n "$DISPLAY" ] && [ -z "$WSL" ] && export MERGEPROG=meld || export DIFFPROG=diff3
+[ -n "$DISPLAY" ] && [ -z "$WSL" ] && export MERGEPROG=meld || export MERGEPROG=diff3
 [ -n "$DISPLAY" ] && [ -z "$WSL" ] && export BROWSER=firefox || export BROWSER=""
 export VISUAL=$EDITOR
 
