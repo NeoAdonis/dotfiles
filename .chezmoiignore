@@ -4,6 +4,7 @@ README.md
 .config/fontconfig
 .config/fsh
 .config/psd
+.config/yay
 .bash_profile
 .bashrc
 .profile
