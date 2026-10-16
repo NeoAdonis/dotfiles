@@ -1,9 +1,13 @@
 # zsh and oh-my-zsh options
 DISABLE_AUTO_TITLE="true"
 plugins=(archlinux git rbw zoxide zsh-autosuggestions fast-syntax-highlighting history-substring-search)
-setopt HIST_FIND_NO_DUPS
-setopt HIST_IGNORE_DUPS
+setopt EXTENDED_HISTORY
+setopt HIST_EXPIRE_DUPS_FIRST
+setopt HIST_IGNORE_ALL_DUPS
+setopt HIST_IGNORE_SPACE
 setopt HIST_REDUCE_BLANKS
+setopt HIST_VERIFY
+setopt SHARE_HISTORY
 # End of zsh and oh-my-zsh options
 
 # oh-my-zsh
@@ -100,8 +104,12 @@ y() {
 	fi
 	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
 	local start end duration count=0
+	local limit=1
+	if [ -n "$SSH_CONNECTION" ]; then
+	    limit=10
+	fi
 	# work-around: yazi might fail to start when run using SSH on Windows
-	while [ "$count" -lt 10 ]; do
+	while [ "$count" -lt "$limit" ]; do
 		start=$(date +%s%3N)
 		yazi "$@" --cwd-file="$tmp" </dev/null
 		end=$(date +%s%3N)
