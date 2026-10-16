@@ -3,3 +3,8 @@ cuda
 cudnn
 lib32-nvidia-utils
 onnxruntime-opt-cuda
+# for amd64:
+aseprite
+fcitx5-mozc-ut
+# for others:
+fcitx5-mozc
