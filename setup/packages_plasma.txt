@@ -1,0 +1,9 @@
+ffmpegthumbs
+haruna
+kimageformats
+kompare
+kvantum
+okular
+pipewire-jack
+plasma-meta
+sshfs

@@ -1,0 +1,5 @@
+amd-ucode
+cuda
+cudnn
+lib32-nvidia-utils
+onnxruntime-opt-cuda
