@@ -1,9 +1,7 @@
-aseprite
 audacity
 bitwarden
 dosfstools
 efibootmgr
-fcitx5-mozc-ut
 firefox
 flatpak
 fwupd
@@ -12,7 +10,9 @@ hunspell-en_gb
 hunspell-en_us
 hunspell-es_any
 hunspell-es_mx
+inter-font
 krita
+libreoffice-fresh
 libva-utils
 mpv
 networkmanager
@@ -35,10 +35,12 @@ ttf-atkinson-hyperlegible
 ttf-atkinson-hyperlegible-next
 ttf-caladea
 ttf-carlito
+ttf-firacode-nerd
 ttf-liberation
 ttf-mplus-nerd
 ttf-nunito
 ttf-rethink-sans
+ttf-roboto
 vdpauinfo
 visual-studio-code-bin
 wl-clipboard
