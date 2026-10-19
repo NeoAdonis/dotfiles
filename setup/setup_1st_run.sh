@@ -31,7 +31,7 @@ echo "- Enable color and progress bar in pacman"
 echo "- Optimize makepkg.conf"
 echo "- Update package database and upgrade system"
 echo "- Install essential packages"
-echo "- Create user account '$NEW_USER' with shell '$NEW_USER_SHELL'"
+echo "- Create/update user account '$NEW_USER' as sudo user with shell '$NEW_USER_SHELL'"
 if [ "${WSL:-0}" -eq 1 ]; then
 	echo "- Set up WSL configuration, including setting default user to '$NEW_USER'"
 fi
@@ -141,8 +141,14 @@ if ! id $NEW_USER &>/dev/null; then
 		echo "error: failed to create user '$NEW_USER'" >&2
 		exit 1
 	fi
-	echo "$NEW_USER ALL=(ALL) NOPASSWD:ALL" >"/etc/sudoers.d/00_$NEW_USER"
+else
+	echo "User '$NEW_USER' already exists. Setting shell to '$NEW_USER_SHELL_PATH'..."
+	if ! usermod -s "$NEW_USER_SHELL_PATH" "$NEW_USER"; then
+		echo "error: failed to change shell for user '$NEW_USER'" >&2
+		exit 1
+	fi
 fi
+echo "$NEW_USER ALL=(ALL) NOPASSWD:ALL" >"/etc/sudoers.d/00_$NEW_USER"
 
 # Copy WSL config
 if [ "${WSL:-0}" -eq 1 ]; then
