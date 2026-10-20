@@ -1,0 +1,4 @@
+[KDEConnect]
+title=KDE Connect
+description=KDE Connect device synchronization client
+ports=1714:1764/tcp|1714:1764/udp
