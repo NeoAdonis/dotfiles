@@ -35,7 +35,11 @@
 [credential "https://huggingface.co"]
 	provider = generic
 [delta]
+	hyperlinks = true
+    hyperlinks-file-link-format = "vscode://file/{path}:{line}"
 	navigate = true
+[diff]
+	colorMoved = default
 [difftool "vscode"]
 	cmd = code --wait --diff $LOCAL $REMOTE
 [filter "lfs"]
