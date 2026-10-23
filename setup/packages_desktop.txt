@@ -36,6 +36,7 @@ ttf-atkinson-hyperlegible-next
 ttf-caladea
 ttf-carlito
 ttf-firacode-nerd
+ttf-ibm-plex
 ttf-liberation
 ttf-mplus-nerd
 ttf-nunito

@@ -4,3 +4,5 @@ python-black
 python-isort
 python-mypy_extensions
 python-toml
+shellcheck
+shfmt

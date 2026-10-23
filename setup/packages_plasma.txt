@@ -3,6 +3,7 @@ haruna
 kimageformats
 kompare
 kvantum
+kwin-effects-glass-git
 okular
 pipewire-jack
 plasma-meta
