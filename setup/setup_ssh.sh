@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
 
 # Installs the sshd config files listed in CONFIG_FILES into /etc/ssh/sshd_config.d,
-# validates the resulting configuration (restoring the previous files if it's
-# invalid) and reloads sshd if it's running.
+# plus 20-allow_users.conf allowing only the user running sudo to log in, validates
+# the resulting configuration (restoring the previous files if it's invalid) and
+# reloads sshd if it's running.
 # Usage: sudo ./setup_ssh.sh
 
 set -euo pipefail
@@ -23,6 +24,7 @@ DEST_DIR="/etc/ssh/sshd_config.d"
 # Config files to install.
 # Each etc__ssh__sshd_config.d__<name> maps to /etc/ssh/sshd_config.d/<name>.
 CONFIG_FILES=(
+	20-auth_limits.conf
 	20-deny_root.conf
 )
 
@@ -46,6 +48,20 @@ for NAME in "${CONFIG_FILES[@]}"; do
 	INSTALLED+=("$DEST")
 	echo "Installed $DEST"
 done
+
+# Allow only the user running sudo to log in.
+if [ -n "${SUDO_USER:-}" ] && [ "$SUDO_USER" != "root" ]; then
+	DEST="$DEST_DIR/20-allow_users.conf"
+	if [ -f "$DEST" ]; then
+		echo "warning: $DEST already exists; leaving it unchanged" >&2
+	else
+		install -m 644 -o root -g root /dev/stdin "$DEST" <<<"AllowUsers $SUDO_USER"
+		INSTALLED+=("$DEST")
+		echo "Installed $DEST (AllowUsers $SUDO_USER)"
+	fi
+else
+	echo "warning: not run through sudo; skipping $DEST_DIR/20-allow_users.conf" >&2
+fi
 
 # Validate the configuration.
 if ! sshd -t; then
