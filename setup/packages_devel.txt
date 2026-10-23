@@ -1,8 +1,7 @@
 cocogitto
 mypy
-python-black
-python-isort
 python-mypy_extensions
 python-toml
-shellcheck
+ruff
+shellcheck-bin
 shfmt
