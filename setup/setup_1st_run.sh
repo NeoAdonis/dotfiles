@@ -36,7 +36,7 @@ if [ "${WSL:-0}" -eq 1 ]; then
 	echo "- Set up WSL configuration, including setting default user to '$NEW_USER'"
 fi
 echo
-read -p "Press Enter to continue or Ctrl+C to abort..."
+read -rp "Press Enter to continue or Ctrl+C to abort..." </dev/tty
 
 # Set up locale
 echo "Generating locale..."
@@ -46,8 +46,7 @@ if grep -q '^#en_US.UTF-8 UTF-8' /etc/locale.gen; then
 elif ! grep -q '^en_US.UTF-8 UTF-8' /etc/locale.gen; then
 	echo 'en_US.UTF-8 UTF-8' >>/etc/locale.gen
 fi
-locale-gen
-if [ $? -eq 0 ]; then
+if locale-gen; then
 	echo "Generated locale."
 else
 	echo "warning: locale-gen failed" >&2
@@ -100,8 +99,7 @@ fi
 
 # Update package database and upgrade system
 echo "Updating package database and upgrading system..."
-pacman -Syu --noconfirm
-if [ $? -ne 0 ]; then
+if ! pacman -Syu --noconfirm; then
 	echo "error: failed to update/upgrade packages" >&2
 	exit 1
 fi
@@ -135,9 +133,8 @@ fish)
 esac
 
 # Create user account
-if ! id $NEW_USER &>/dev/null; then
-	useradd -m -s $NEW_USER_SHELL_PATH $NEW_USER
-	if [ $? -ne 0 ]; then
+if ! id "$NEW_USER" &>/dev/null; then
+	if ! useradd -m -s "$NEW_USER_SHELL_PATH" "$NEW_USER"; then
 		echo "error: failed to create user '$NEW_USER'" >&2
 		exit 1
 	fi
@@ -152,22 +149,24 @@ echo "$NEW_USER ALL=(ALL) NOPASSWD:ALL" >"/etc/sudoers.d/00_$NEW_USER"
 
 # Copy WSL config
 if [ "${WSL:-0}" -eq 1 ]; then
-	cat >/etc/wsl.conf <<-EOF
-		[automount]
-		enabled = true
-		options = "metadata"
-		mountFsTab = false
+	wsl_conf=$(
+		cat <<-EOF
+			[automount]
+			enabled = true
+			options = "metadata"
+			mountFsTab = false
 
-		[boot]
-		systemd = true
+			[boot]
+			systemd = true
 
-		[interop]
-		appendWindowsPath = false
+			[interop]
+			appendWindowsPath = false
 
-		[user]
-		default = $NEW_USER
-	EOF
-	if [ $? -eq 0 ]; then
+			[user]
+			default = $NEW_USER
+		EOF
+	)
+	if cat >/etc/wsl.conf <<<"$wsl_conf"; then
 		echo "Created /etc/wsl.conf"
 	else
 		echo "warning: failed to create /etc/wsl.conf" >&2
